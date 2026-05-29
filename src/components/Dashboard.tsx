@@ -437,8 +437,8 @@ export default function Dashboard({
                     cursor={{ fill: '#f9fafb' }}
                     contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
                   />
-                  <Bar dataKey="compensados" stackId="a" fill="#10b981" radius={[0, 0, 0, 0]} barSize={26} />
-                  <Bar dataKey="noCompensados" stackId="a" fill="#f43f5e" radius={[4, 4, 0, 0]} barSize={26} />
+                  <Bar dataKey="compensados" name="Compensados" stackId="a" fill="#10b981" radius={[0, 0, 0, 0]} barSize={26} />
+                  <Bar dataKey="noCompensados" name="No compensados" stackId="a" fill="#f43f5e" radius={[4, 4, 0, 0]} barSize={26} />
                 </BarChart>
               ) : (
                 <span className="text-xs font-bold text-gray-400 uppercase tracking-widest animate-pulse">Calculando dimensiones...</span>
