@@ -34,13 +34,13 @@ export default function App() {
     searchTerm?: string;
     actionFilter?: string;
     patientId?: string;
-    compensationFilter?: 'Todos' | 'Compensadoo' | 'No compensado' | 'Sin dato';
+    compensationFilter?: 'Todos' | 'Compensado' | 'No compensado' | 'Sin dato';
     appointmentFilter?: 'Todos' | 'Control vigente' | 'Control vencido' | 'Sin próxima cita' | 'Inasistencia reciente';
     alertFilter?: string;
     establishmentFilter?: 'Todos' | 'Hualañé' | 'Curepto';
   } | undefined>(undefined);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentDate, setCurrentDate] = useState(new Date()); 
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
   const [isAppointmentModalOpen, setIsAppointmentModalOpen] = useState(false);
   const [appointmentsList, setAppointmentsList] = useState<Appointment[]>(APPOINTMENTS_MOCK);
@@ -55,10 +55,10 @@ export default function App() {
     }
   };
 
-  const handleSaveManagedAppointment = (updatedData: {
-    date: string;
-    time: string;
-    status: string;
+  const handleSaveManagedAppointment = (updatedData: { 
+    date: string; 
+    time: string; 
+    status: string; 
     specialty: 'medico' | 'enfermera' | 'nutricionista';
     attentionType?: string;
     establishment?: 'Hualañé' | 'Curepto';
@@ -66,13 +66,13 @@ export default function App() {
     instruction?: string;
   }) => {
     if (!selectedAppForManagement) return;
-
+    
     const roleMap: Record<'medico' | 'enfermera' | 'nutricionista', 'MEDICO' | 'ENFERMERA' | 'NUTRICIONISTA'> = {
       medico: 'MEDICO',
       enfermera: 'ENFERMERA',
       nutricionista: 'NUTRICIONISTA'
     };
-
+    
     const professionalNameMap: Record<'medico' | 'enfermera' | 'nutricionista', string> = {
       medico: 'Dr. Carlos Mendoza',
       enfermera: 'Enf. Camila Silva',
@@ -119,7 +119,7 @@ export default function App() {
       newDate.setDate(newDate.getDate() - 1);
     }
     setCurrentDate(newDate);
-
+    
     if (view === 'DÍA') {
       updateSelectedDateFromDate(newDate);
     }
@@ -162,7 +162,7 @@ export default function App() {
   const handleNavigateToCalendar = (date: Date) => {
     setCurrentDate(date);
     updateSelectedDateFromDate(date);
-    setView('LISTADO');
+    setView('LISTADO'); 
   };
 
   const handleViewPatientDetails = (patient: Patient) => {
@@ -170,7 +170,7 @@ export default function App() {
     setView('PACIENTE_DETALLE');
   };
 
-  const filteredAppointments = selectedDate
+  const filteredAppointments = selectedDate 
     ? appointmentsList.filter(a => a.date === selectedDate)
     : [];
 
@@ -179,7 +179,7 @@ export default function App() {
   const handleViewChange = (newView: any, params?: any) => {
     const isCalendarView = ['MES', 'SEMANA', 'DÍA'].includes(newView);
     const wasCalendarView = ['MES', 'SEMANA', 'DÍA'].includes(view);
-
+    
     setView(newView);
     if (newView === 'PACIENTES') {
       if (params) {
@@ -188,7 +188,7 @@ export default function App() {
         setPatientListFilters(undefined);
       }
     }
-
+    
     // Reset to "today" when changing between calendar formats
     if (isCalendarView && (newView !== view || !wasCalendarView)) {
       const today = new Date();
@@ -220,23 +220,23 @@ export default function App() {
   return (
     <div className="flex h-screen overflow-hidden bg-[#f3f4f6]">
       <Sidebar currentView={view} onNavigate={handleViewChange} onLogout={handleLogout} />
-
+      
       <main className="flex-1 flex flex-col p-6 h-full overflow-hidden bg-calendar-bg">
         <div className="w-full h-full flex flex-col max-w-[1536px] xl:max-w-[1680px] 2xl:max-w-[1850px] mx-auto">
           <div className="flex-1 flex flex-col min-h-0 relative">
             <AnimatePresence mode="wait">
               {isCalendarView && (
-                <motion.div
-                  key="CALENDAR_WORKSPACE"
+                <motion.div 
+                   key="CALENDAR_WORKSPACE"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.3 }}
                   className="flex-1 flex flex-col min-h-0"
                 >
-                  <CalendarHeader
-                    view={view as 'MES' | 'SEMANA' | 'DÍA'}
-                    setView={handleViewChange}
+                  <CalendarHeader 
+                    view={view as 'MES' | 'SEMANA' | 'DÍA'} 
+                    setView={handleViewChange} 
                     currentDate={currentDate}
                     onPrev={handlePrev}
                     onNext={handleNext}
@@ -247,7 +247,7 @@ export default function App() {
                   <div className="flex-1 flex flex-col min-h-0 relative">
                     <AnimatePresence mode="wait">
                       {view === 'MES' && (
-                        <motion.div
+                        <motion.div 
                           key="SUB_MES"
                           initial={{ opacity: 0, x: 20 }}
                           animate={{ opacity: 1, x: 0 }}
@@ -259,7 +259,7 @@ export default function App() {
                         </motion.div>
                       )}
                       {view === 'DÍA' && (
-                        <motion.div
+                        <motion.div 
                           key="SUB_DÍA"
                           initial={{ opacity: 0, scale: 0.98 }}
                           animate={{ opacity: 1, scale: 1 }}
@@ -271,7 +271,7 @@ export default function App() {
                         </motion.div>
                       )}
                       {view === 'SEMANA' && (
-                        <motion.div
+                        <motion.div 
                           key="SUB_SEMANA"
                           initial={{ opacity: 0, y: 15 }}
                           animate={{ opacity: 1, y: 0 }}
@@ -287,20 +287,20 @@ export default function App() {
                 </motion.div>
               )}
               {view === 'LISTADO' && selectedDate && (
-                <motion.div
+                <motion.div 
                   key="LISTADO"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   className="flex-1 flex flex-col min-h-0"
                 >
-                  <DailyAppointmentList
-                    appointments={filteredAppointments}
-                    date={selectedDate}
-                    onBack={() => handleViewChange('MES')}
+                  <DailyAppointmentList 
+                    appointments={filteredAppointments} 
+                    date={selectedDate} 
+                    onBack={() => handleViewChange('MES')} 
                     onManageAppointment={handleOpenManagementModal}
                     onUpdateStatus={(appId, newStatus) => {
-                      setAppointmentsList(prev => prev.map(app =>
+                      setAppointmentsList(prev => prev.map(app => 
                         app.id === appId ? { ...app, status: newStatus } : app
                       ));
                     }}
@@ -324,9 +324,9 @@ export default function App() {
               )}
               {view === 'PACIENTE_DETALLE' && selectedPatient && (
                 <motion.div key="PACIENTE_DETALLE" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex-1 flex flex-col min-h-0">
-                  <PatientDetails
-                    patient={selectedPatient}
-                    onEditProfile={() => setView('PACIENTE_EDICION')}
+                  <PatientDetails 
+                    patient={selectedPatient} 
+                    onEditProfile={() => setView('PACIENTE_EDICION')} 
                     onBack={() => setView('PACIENTES')}
                   />
                 </motion.div>
@@ -349,15 +349,15 @@ export default function App() {
               {view === 'USER_PROFILE' && <motion.div key="USER_PROFILE" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex-1 flex flex-col min-h-0"><UserProfile /></motion.div>}
               {view === 'AUDIT_LOG' && <motion.div key="AUDIT_LOG" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex-1 flex flex-col min-h-0"><AuditLog /></motion.div>}
               {view === 'DASHBOARD' && (
-                <motion.div
+                <motion.div 
                   key="DASHBOARD"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   className="flex-1 flex flex-col min-h-0"
                 >
-                  <Dashboard
-                    onNavigateToCalendar={handleNavigateToCalendar}
+                  <Dashboard 
+                    onNavigateToCalendar={handleNavigateToCalendar} 
                     onNavigate={handleViewChange}
                     onNewAppointment={() => {
                       const todayStr = new Date().toISOString().split('T')[0];
@@ -368,7 +368,7 @@ export default function App() {
                 </motion.div>
               )}
             </AnimatePresence>
-
+            
             {/* Placeholder for other views */}
             {!['DASHBOARD', 'MES', 'SEMANA', 'DÍA', 'LISTADO', 'REPORTE_REM', 'USER_PROFILE', 'AUDIT_LOG', 'PACIENTES', 'PACIENTE_DETALLE', 'PACIENTE_EDICION'].includes(view) && (
               <div className="flex-1 bg-white border border-gray-200 rounded-lg flex items-center justify-center text-gray-400 font-medium italic shadow-sm">
@@ -380,10 +380,10 @@ export default function App() {
       </main>
 
       {selectedDate && (
-        <AppointmentModal
-          isOpen={isAppointmentModalOpen}
-          onClose={() => setIsAppointmentModalOpen(false)}
-          dateStr={selectedDate}
+        <AppointmentModal 
+          isOpen={isAppointmentModalOpen} 
+          onClose={() => setIsAppointmentModalOpen(false)} 
+          dateStr={selectedDate} 
           onSave={(newApp) => {
             setAppointmentsList(prev => [...prev, newApp]);
             setIsAppointmentModalOpen(false);
